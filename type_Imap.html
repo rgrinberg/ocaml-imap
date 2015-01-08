@@ -1,0 +1,371 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Imap" rel="Chapter" href="Imap.html"><title>Imap</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;uint32&nbsp;=&nbsp;<span class="constructor">Uint32</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;uint64&nbsp;=&nbsp;<span class="constructor">Uint64</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;date&nbsp;=&nbsp;{&nbsp;day&nbsp;:&nbsp;int;&nbsp;month&nbsp;:&nbsp;int;&nbsp;year&nbsp;:&nbsp;int;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;time&nbsp;=&nbsp;{&nbsp;hours&nbsp;:&nbsp;int;&nbsp;minutes&nbsp;:&nbsp;int;&nbsp;seconds&nbsp;:&nbsp;int;&nbsp;zone&nbsp;:&nbsp;int;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;flag&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Answered</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Deleted</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Draft</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Extension</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Flagged</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Keyword</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Seen</span>&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;capability&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Acl</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Auth</span>&nbsp;<span class="keyword">of</span>&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Anonymous</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Login</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Plain</span>&nbsp;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Binary</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Catenate</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Children</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Compress_deflate</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Condstore</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Enable</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Gmail</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Id</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Idle</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Literal_plus</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Multi_append</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Namespace</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Other</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Qresync</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Quote</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Sort</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Start_tls</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Uid_plus</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Unselect</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Xlist</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Xoauth2</span>&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;set&nbsp;=&nbsp;(<span class="constructor">Imap</span>.uint32&nbsp;*&nbsp;<span class="constructor">Imap</span>.uint32)&nbsp;list<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;address&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ad_name&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ad_adl&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ad_mailbox&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ad_host&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;envelope&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;env_date&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;env_subject&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;env_from&nbsp;:&nbsp;<span class="constructor">Imap</span>.address&nbsp;list;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;env_sender&nbsp;:&nbsp;<span class="constructor">Imap</span>.address&nbsp;list;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;env_reply_to&nbsp;:&nbsp;<span class="constructor">Imap</span>.address&nbsp;list;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;env_to&nbsp;:&nbsp;<span class="constructor">Imap</span>.address&nbsp;list;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;env_cc&nbsp;:&nbsp;<span class="constructor">Imap</span>.address&nbsp;list;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;env_bcc&nbsp;:&nbsp;<span class="constructor">Imap</span>.address&nbsp;list;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;env_in_reply_to&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;env_message_id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;fields&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fld_params&nbsp;:&nbsp;(string&nbsp;*&nbsp;string)&nbsp;list;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fld_id&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fld_desc&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fld_enc&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fld_octets&nbsp;:&nbsp;int;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;mime&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Basic</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;*&nbsp;string&nbsp;*&nbsp;<span class="constructor">Imap</span>.fields<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Message</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.fields&nbsp;*&nbsp;<span class="constructor">Imap</span>.envelope&nbsp;*&nbsp;mime&nbsp;*&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Multiple</span>&nbsp;<span class="keyword">of</span>&nbsp;mime&nbsp;list&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Text</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;*&nbsp;<span class="constructor">Imap</span>.fields&nbsp;*&nbsp;int&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;section&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">All</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Header</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Header_fields</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Header_fields_not</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Mime</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Part</span>&nbsp;<span class="keyword">of</span>&nbsp;int&nbsp;*&nbsp;section<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Text</span>&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;fetch_response&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Body</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.mime<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Body_section</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.section&nbsp;*&nbsp;int&nbsp;option&nbsp;*&nbsp;string&nbsp;option<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Body_structure</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.mime<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Envelope</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.envelope<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Flags</span>&nbsp;<span class="keyword">of</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Answered</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Deleted</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Draft</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Extension</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Flagged</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Keyword</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Recent</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Seen</span>&nbsp;]&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Gm_labels</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Gm_msgid</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint64<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Gm_thrid</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint64<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Internal_date</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.date&nbsp;*&nbsp;<span class="constructor">Imap</span>.time<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Modseq</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint64<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Rfc822</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;option<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Rfc822_header</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;option<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Rfc822_size</span>&nbsp;<span class="keyword">of</span>&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Rfc822_text</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;option<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Uid</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;code&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Alert</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Append_uid</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32&nbsp;*&nbsp;<span class="constructor">Imap</span>.uint32<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Bad_charset</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Capability</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.capability&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Closed</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Compression_active</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Copy_uid</span>&nbsp;<span class="keyword">of</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Imap</span>.uint32&nbsp;*&nbsp;(<span class="constructor">Imap</span>.uint32&nbsp;*&nbsp;<span class="constructor">Imap</span>.uint32)&nbsp;list&nbsp;*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Imap</span>.uint32&nbsp;*&nbsp;<span class="constructor">Imap</span>.uint32)&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Highest_modseq</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint64<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Modified</span>&nbsp;<span class="keyword">of</span>&nbsp;(<span class="constructor">Imap</span>.uint32&nbsp;*&nbsp;<span class="constructor">Imap</span>.uint32)&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">No_modseq</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">None</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Other</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;*&nbsp;string&nbsp;option<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Parse</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Permanent_flags</span>&nbsp;<span class="keyword">of</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">All</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Answered</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Deleted</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Draft</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Extension</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Flagged</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Keyword</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Seen</span>&nbsp;]&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Read_only</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Read_write</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Try_create</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Uid_next</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Uid_not_sticky</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Uid_validity</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Unseen</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Use_attr</span>&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;mbx_flag&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">All</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Archive</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Drafts</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Extension</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Flagged</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">HasChildren</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">HasNoChildren</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Junk</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Marked</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Noinferiors</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Noselect</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Sent</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Trash</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Unmarked</span>&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;status_response&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Highest_modseq</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint64<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Messages</span>&nbsp;<span class="keyword">of</span>&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Recent</span>&nbsp;<span class="keyword">of</span>&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Uid_next</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Uid_validity</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Unseen</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;state&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Bad</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">No</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;untagged&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Bad</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Bye</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Capability</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.capability&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Enabled</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.capability&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Exists</span>&nbsp;<span class="keyword">of</span>&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Expunge</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Fetch</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32&nbsp;*&nbsp;<span class="constructor">Imap</span>.fetch_response&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Flags</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.flag&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">List</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.mbx_flag&nbsp;list&nbsp;*&nbsp;char&nbsp;option&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Lsub</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.mbx_flag&nbsp;list&nbsp;*&nbsp;char&nbsp;option&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">No</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Preauth</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Recent</span>&nbsp;<span class="keyword">of</span>&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Search</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32&nbsp;list&nbsp;*&nbsp;<span class="constructor">Imap</span>.uint64&nbsp;option<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Status</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;*&nbsp;<span class="constructor">Imap</span>.status_response&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Vanished</span>&nbsp;<span class="keyword">of</span>&nbsp;(<span class="constructor">Imap</span>.uint32&nbsp;*&nbsp;<span class="constructor">Imap</span>.uint32)&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Vanished_earlier</span>&nbsp;<span class="keyword">of</span>&nbsp;(<span class="constructor">Imap</span>.uint32&nbsp;*&nbsp;<span class="constructor">Imap</span>.uint32)&nbsp;list&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;response&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Bad</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Bye</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Capability</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.capability&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Cont</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Enabled</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.capability&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Exists</span>&nbsp;<span class="keyword">of</span>&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Expunge</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Fetch</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32&nbsp;*&nbsp;<span class="constructor">Imap</span>.fetch_response&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Flags</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.flag&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">List</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.mbx_flag&nbsp;list&nbsp;*&nbsp;char&nbsp;option&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Lsub</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.mbx_flag&nbsp;list&nbsp;*&nbsp;char&nbsp;option&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">No</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Preauth</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Recent</span>&nbsp;<span class="keyword">of</span>&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Search</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint32&nbsp;list&nbsp;*&nbsp;<span class="constructor">Imap</span>.uint64&nbsp;option<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Status</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;*&nbsp;<span class="constructor">Imap</span>.status_response&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Tagged</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;*&nbsp;<span class="constructor">Imap</span>.state<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Vanished</span>&nbsp;<span class="keyword">of</span>&nbsp;(<span class="constructor">Imap</span>.uint32&nbsp;*&nbsp;<span class="constructor">Imap</span>.uint32)&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Vanished_earlier</span>&nbsp;<span class="keyword">of</span>&nbsp;(<span class="constructor">Imap</span>.uint32&nbsp;*&nbsp;<span class="constructor">Imap</span>.uint32)&nbsp;list&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;pp_response&nbsp;:&nbsp;<span class="constructor">Format</span>.formatter&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[&lt;&nbsp;<span class="constructor">Imap</span>.response&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;eset&nbsp;=&nbsp;(<span class="constructor">Imap</span>.uint32&nbsp;*&nbsp;<span class="constructor">Imap</span>.uint32&nbsp;option)&nbsp;list<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;search_key&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">All</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">And</span>&nbsp;<span class="keyword">of</span>&nbsp;search_key&nbsp;*&nbsp;search_key<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Answered</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Bcc</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Before</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.date<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Body</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Cc</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Deleted</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Draft</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Flagged</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">From</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Gm_labels</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Gm_msgid</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint64<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Gm_raw</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Gm_thrid</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint64<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Header</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Keyword</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Larger</span>&nbsp;<span class="keyword">of</span>&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Modseq</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.uint64<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">New</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Not</span>&nbsp;<span class="keyword">of</span>&nbsp;search_key<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Old</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">On</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.date<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Or</span>&nbsp;<span class="keyword">of</span>&nbsp;search_key&nbsp;*&nbsp;search_key<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Recent</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Seen</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Sent_before</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.date<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Sent_on</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.date<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Sent_since</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.date<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Seq</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.eset<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Since</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.date<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Smaller</span>&nbsp;<span class="keyword">of</span>&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Subject</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Text</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">To</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Uid</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.eset<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Unanswered</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Undeleted</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Undraft</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Unflagged</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Unkeyword</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Unseen</span>&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;fetch_query&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Body</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Body_section</span>&nbsp;<span class="keyword">of</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Look</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Peek</span>&nbsp;]&nbsp;*&nbsp;<span class="constructor">Imap</span>.section&nbsp;*&nbsp;(int&nbsp;*&nbsp;int)&nbsp;option<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Body_structure</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Envelope</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Flags</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Internal_date</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Rfc822</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Rfc822_header</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Rfc822_size</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Rfc822_text</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Uid</span>&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;status_query&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Highest_modseq</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Messages</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Recent</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Uid_next</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Uid_validity</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Unseen</span>&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;login&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;capability&nbsp;:&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;rename&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;logout&nbsp;:&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;noop&nbsp;:&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;subscribe&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;unsubscribe&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;list&nbsp;:&nbsp;?ref:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;lsub&nbsp;:&nbsp;?ref:string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;status&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.status_query&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;copy&nbsp;:&nbsp;?uid:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.eset&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;check&nbsp;:&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;close&nbsp;:&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;expunge&nbsp;:&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;search&nbsp;:&nbsp;?uid:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.search_key&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;select&nbsp;:&nbsp;?condstore:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;examine&nbsp;:&nbsp;?condstore:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;append&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?flags:<span class="constructor">Imap</span>.flag&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fetch&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?uid:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?changed:<span class="constructor">Imap</span>.uint64&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?vanished:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.eset&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.fetch_query&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fetch_all&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?uid:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?changed:<span class="constructor">Imap</span>.uint64&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?vanished:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.eset&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fetch_fast&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?uid:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?changed:<span class="constructor">Imap</span>.uint64&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?vanished:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.eset&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fetch_full&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?uid:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?changed:<span class="constructor">Imap</span>.uint64&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?vanished:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.eset&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;store_add_flags&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?uid:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?silent:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?unchanged:<span class="constructor">Imap</span>.uint64&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.eset&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.flag&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;store_set_flags&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?uid:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?silent:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?unchanged:<span class="constructor">Imap</span>.uint64&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.eset&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.flag&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;store_remove_flags&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?uid:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?silent:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?unchanged:<span class="constructor">Imap</span>.uint64&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.eset&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.flag&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;store_add_labels&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?uid:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?silent:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?unchanged:<span class="constructor">Imap</span>.uint64&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.eset&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;store_set_labels&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?uid:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?silent:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?unchanged:<span class="constructor">Imap</span>.uint64&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.eset&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;store_remove_labels&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?uid:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?silent:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?unchanged:<span class="constructor">Imap</span>.uint64&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.eset&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;enable&nbsp;:&nbsp;<span class="constructor">Imap</span>.capability&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;authenticator&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;step&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Error</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;];<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;plain&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.authenticator<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xoauth2&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.authenticator<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;error&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Auth_error</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Bad</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Bad_greeting</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Decode_error</span>&nbsp;<span class="keyword">of</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Expected_char</span>&nbsp;<span class="keyword">of</span>&nbsp;char<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Expected_string</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Illegal_char</span>&nbsp;<span class="keyword">of</span>&nbsp;char<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Unexpected_char</span>&nbsp;<span class="keyword">of</span>&nbsp;char<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Unexpected_eoi</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Unexpected_string</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;]&nbsp;*&nbsp;string&nbsp;*&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Incorrect_tag</span>&nbsp;<span class="keyword">of</span>&nbsp;string&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">No</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Unexpected_cont</span>&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;pp_error&nbsp;:&nbsp;<span class="constructor">Format</span>.formatter&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.error&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;connection<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;connection&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Imap</span>.connection<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;src&nbsp;:&nbsp;<span class="constructor">Imap</span>.connection&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dst&nbsp;:&nbsp;<span class="constructor">Imap</span>.connection&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dst_rem&nbsp;:&nbsp;<span class="constructor">Imap</span>.connection&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;run&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Imap</span>.connection&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Authenticate</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.authenticator<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Cmd</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.command<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Idle</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Idle_done</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Await_dst</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Await_src</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Error</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.error<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.code&nbsp;*&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.untagged&nbsp;]<br>
+<span class="keyword">end</span></code></body></html>

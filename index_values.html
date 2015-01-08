@@ -1,0 +1,248 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Imap" rel="Chapter" href="Imap.html"><title>Index of values</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;</div>
+<h1>Index of values</h1>
+<table>
+<tr><td align="left"><br>A</td></tr>
+<tr><td><a href="Imap.html#VALappend">append</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">append m flags id data</code> appends <code class="code">data</code> as a new message to the end of the
+    mailbox <code class="code">m</code>.
+</div>
+</td></tr>
+<tr><td align="left"><br>C</td></tr>
+<tr><td><a href="Imap.html#VALcapability">capability</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">capability</code> returns the list of capabilities supported by the server.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALcheck">check</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">check</code> requests a checkpoint of the currently selected mailbox.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALclose">close</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">close</code> permanently removes all messages that have the <code class="code"><span class="keywordsign">`</span><span class="constructor">Deleted</span></code>
+    <a href="Imap.html#TYPEflag"><code class="code"><span class="constructor">Imap</span>.flag</code></a> set from the currently selected mailbox, and returns to
+    the authenticated state from the selected state.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALconnection">connection</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">connection ()</code> creates a new connection object.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALcopy">copy</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">copy uid set m</code> copies the messages in <code class="code">set</code> to the end of the specified
+    mailbox <code class="code">m</code>.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALcreate">create</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">create m</code> creates a mailbox named <code class="code">m</code>.
+</div>
+</td></tr>
+<tr><td align="left"><br>D</td></tr>
+<tr><td><a href="Imap.html#VALdst">dst</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">dst c s i l</code> provides <code class="code">c</code> with <code class="code">l</code> bytes of output storage in <code class="code">s</code> starting
+    at <code class="code">i</code>.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALdst_rem">dst_rem</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">dst_rem c</code> is the number of bytes still available for output in the
+    current output buffer of <code class="code">c</code>.
+</div>
+</td></tr>
+<tr><td align="left"><br>E</td></tr>
+<tr><td><a href="Imap.html#VALenable">enable</a> [<a href="Imap.html">Imap</a>]</td>
+<td></td></tr>
+<tr><td><a href="Imap.html#VALexamine">examine</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">examine condstore m</code> is identical to <code class="code">select condstore m</code> and returns the
+    same output; however, the selected mailbox is identified as read-only.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALexpunge">expunge</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">expunge</code> permanently removes all messages that have the <code class="code"><span class="keywordsign">`</span><span class="constructor">Deleted</span></code>
+    <a href="Imap.html#TYPEflag"><code class="code"><span class="constructor">Imap</span>.flag</code></a> set from the currently selected mailbox.
+</div>
+</td></tr>
+<tr><td align="left"><br>F</td></tr>
+<tr><td><a href="Imap.html#VALfetch">fetch</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">fetch uid changed vanished set att</code> retrieves data associated with the
+    message set <code class="code">set</code> in the current mailbox.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALfetch_all">fetch_all</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">fetch_all uid changed vanished set</code> is equivalent to <code class="code">fetch uid changed vanished set a</code>, where
+    <code class="code">a = [<span class="keywordsign">`</span><span class="constructor">Flags</span>; <span class="keywordsign">`</span><span class="constructor">Internal_date</span>; <span class="keywordsign">`</span><span class="constructor">Rfc822_size</span>; <span class="keywordsign">`</span><span class="constructor">Envelope</span>]</code>.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALfetch_fast">fetch_fast</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">fetch_fast uid changed vanished set</code> is equivalent to <code class="code">fetch uid changed vanished set a</code>, where
+    <code class="code">a = [<span class="keywordsign">`</span><span class="constructor">Flags</span>; <span class="keywordsign">`</span><span class="constructor">Internal_date</span>; <span class="keywordsign">`</span><span class="constructor">Rfc822_size</span>]</code>.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALfetch_full">fetch_full</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">fetch_full u c v s</code> is equivalent to <code class="code">fetch u c v s a</code> where
+    <code class="code">a = [<span class="keywordsign">`</span><span class="constructor">Flags</span>; <span class="keywordsign">`</span><span class="constructor">Internal_date</span>; <span class="keywordsign">`</span><span class="constructor">Rfc822_size</span>; <span class="keywordsign">`</span><span class="constructor">Envelope</span>; <span class="keywordsign">`</span><span class="constructor">Body</span>]</code>.
+</div>
+</td></tr>
+<tr><td align="left"><br>L</td></tr>
+<tr><td><a href="Imap.html#VALlist">list</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">list ref m</code> returns a subset of names from the complete set of all names
+    available to the client.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALlogin">login</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">login user pass</code> identifies the client to the server and carries the
+    plaintext password authenticating this <code class="code">user</code> with password <code class="code">pass</code>.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALlogout">logout</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">logout</code> gracefully terminates a session.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALlsub">lsub</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">lsub ref m</code> is identical to <a href="Imap.html#VALlist"><code class="code"><span class="constructor">Imap</span>.list</code></a>, except that it returns a subset of
+    names from the set of names that the user has declared as being "active" or
+    "subscribed".
+</div>
+</td></tr>
+<tr><td align="left"><br>N</td></tr>
+<tr><td><a href="Imap.html#VALnoop">noop</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">noop</code> does nothing.
+</div>
+</td></tr>
+<tr><td align="left"><br>P</td></tr>
+<tr><td><a href="Imap.html#VALplain">plain</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">plain user pass</code> authenticates via <code class="code"><span class="constructor">PLAIN</span></code> mechanism using username <code class="code">user</code>
+    and password <code class="code">pass</code>.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALpp_error">pp_error</a> [<a href="Imap.html">Imap</a>]</td>
+<td></td></tr>
+<tr><td><a href="Imap.html#VALpp_response">pp_response</a> [<a href="Imap.html">Imap</a>]</td>
+<td></td></tr>
+<tr><td align="left"><br>R</td></tr>
+<tr><td><a href="Imap.html#VALrename">rename</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">rename oldname newname</code> command changes the name of a mailbox from
+    <code class="code">oldname</code> to <code class="code">newname</code>.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALrun">run</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">run c v</code> performs <code class="code">v</code> on the connection <code class="code">c</code>.
+</div>
+</td></tr>
+<tr><td align="left"><br>S</td></tr>
+<tr><td><a href="Imap.html#VALsearch">search</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">search uid sk</code> searches the mailbox for messages that match the given
+    searching criteria.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALselect">select</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">select condstore m</code> selects the mailbox <code class="code">m</code> so that its messages can be
+    accessed.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALsrc">src</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">src c s i l</code> provides <code class="code">c</code> with input taken from <code class="code">l</code> bytes from <code class="code">s</code> starting
+    at <code class="code">i</code>.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALstatus">status</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">status</code> requests <a href="Imap.html#TYPEstatus_query">status information</a> of the indicated
+    mailbox.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALstore_add_flags">store_add_flags</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">store_add_flags uid silent unchanged set flags</code> adds flags <code class="code">flags</code> to the
+    message set <code class="code">set</code>.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALstore_add_labels">store_add_labels</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">store_add_labels</code> is like <a href="Imap.html#VALstore_add_flags"><code class="code"><span class="constructor">Imap</span>.store_add_flags</code></a> but adds
+    <a href="https://developers.google.com/gmail/imap_extensions">Gmail</a> <em>labels</em>
+    instead of regular flags.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALstore_remove_flags">store_remove_flags</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">store_remove_flags</code> is like <a href="Imap.html#VALstore_add_flags"><code class="code"><span class="constructor">Imap</span>.store_add_flags</code></a> but removes flags instead of
+    adding them.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALstore_remove_labels">store_remove_labels</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">store_remove_labels</code> is like <a href="Imap.html#VALstore_add_labels"><code class="code"><span class="constructor">Imap</span>.store_add_labels</code></a> but removes labels instead
+    of adding them.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALstore_set_flags">store_set_flags</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">store_set_flags</code> is like <a href="Imap.html#VALstore_add_flags"><code class="code"><span class="constructor">Imap</span>.store_add_flags</code></a> but replaces the set of flags
+    instead of adding to it.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALstore_set_labels">store_set_labels</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">store_set_labels</code> is like <a href="Imap.html#VALstore_add_labels"><code class="code"><span class="constructor">Imap</span>.store_add_labels</code></a> but replaces the set of
+    labels instead of adding to it.
+</div>
+</td></tr>
+<tr><td><a href="Imap.html#VALsubscribe">subscribe</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">subscribe m</code> adds the mailbox <code class="code">m</code> to the server's set of "active" or
+    "subscribed" mailboxes as returned by the <a href="Imap.html#VALlsub"><code class="code"><span class="constructor">Imap</span>.lsub</code></a> command.
+</div>
+</td></tr>
+<tr><td align="left"><br>U</td></tr>
+<tr><td><a href="Imap.html#VALunsubscribe">unsubscribe</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">unsubcribe m</code> removes the mailbox <code class="code">m</code> from the server's set of "active" or
+    "subscribed" mailboxes as returned by the <a href="Imap.html#VALlsub"><code class="code"><span class="constructor">Imap</span>.lsub</code></a> command.
+</div>
+</td></tr>
+<tr><td align="left"><br>X</td></tr>
+<tr><td><a href="Imap.html#VALxoauth2">xoauth2</a> [<a href="Imap.html">Imap</a>]</td>
+<td><div class="info">
+<code class="code">xoauth2 user token</code> authenticates via <code class="code"><span class="constructor">XOAUTH2</span></code> mechanishm user username
+    <code class="code">user</code> and access token <code class="code">token</code>.
+</div>
+</td></tr>
+</table>
+</body>
+</html>

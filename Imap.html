@@ -1,0 +1,1006 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Imap" rel="Chapter" href="Imap.html"><link title="Common types for IMAP" rel="Section" href="#1_CommontypesforIMAP">
+<link title="Types for responses" rel="Section" href="#1_Typesforresponses">
+<link title="Types for queries" rel="Section" href="#1_Typesforqueries">
+<link title="Commands" rel="Section" href="#commands">
+<link title="Authenticators" rel="Section" href="#1_Authenticators">
+<link title="Running commands and receiving responses" rel="Section" href="#1_Runningcommandsandreceivingresponses">
+<link title="Supported extensions and limitations" rel="Section" href="#limitations">
+<link title="Example: checking for new mail" rel="Section" href="#ex">
+<link title="Fetch commands" rel="Subsection" href="#2_Fetchcommands">
+<link title="Store commands" rel="Subsection" href="#2_Storecommands">
+<title>Imap</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Imap.html">Imap</a></h1>
+
+<pre><span class="keyword">module</span> Imap: <code class="code"><span class="keyword">sig</span></code> <a href="Imap.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Non-blocking IMAP4 protocol codec.
+<p>
+
+    <code class="code"><span class="constructor">Imap</span></code> is a non-blocking codec to encode and decode the full
+    <a href="https://tools.ietf.org/html/rfc3501">IMAP4</a> protocol, together with some
+    <a href="Imap.html#limitations">extensions</a>.  It can process input without blocking
+    on IO and is completely independent of any particular buffering and/or IO
+    strategry (concurrent, like <a href="https://github.com/ocsigen/lwt">Lwt</a> or
+    <a href="https://github.com/janestreet/async">Async</a>, sequential, etc.).
+<p>
+
+    Most users should begin by looking at the <a href="Imap.html#ex">examples</a>, the types and
+    functions describing <a href="Imap.html#TYPEconnection">connections</a>,
+    <a href="Imap.html#commands">commands</a>, and the <a href="Imap.html#VALrun"><code class="code"><span class="constructor">Imap</span>.run</code></a> function.
+<p>
+
+    See the <a href="Imap.html#ex">examples</a> of use.
+<p>
+
+    <h3 id="3_References">References</h3>
+    <ul>
+<li>M. Crispin
+    <em><a href="https://tools.ietf.org/html/rfc3501">INTERNET MESSAGE ACCESS PROTOCOL - VERSION 4rev1</a>, 2003</em></li>
+</ul>
+<br>
+</div>
+<hr width="100%">
+<br>
+<h1 id="1_CommontypesforIMAP">Common types for IMAP</h1><br>
+
+<pre><span id="TYPEuint32"><span class="keyword">type</span> <code class="type"></code>uint32</span> = <code class="type">Uint32.t</code> </pre>
+<div class="info ">
+Unsigned 32-bit integers are used for: message sequence numbers, unique
+    identification numbers (UIDs).<br>
+</div>
+
+
+<pre><span id="TYPEuint64"><span class="keyword">type</span> <code class="type"></code>uint64</span> = <code class="type">Uint64.t</code> </pre>
+<div class="info ">
+Unsigned 64-bit integers are used for: mod-sequence numbers, Gmail message
+    and thread IDs.<br>
+</div>
+
+
+<pre><code><span id="TYPEdate"><span class="keyword">type</span> <code class="type"></code>date</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdate.day">day</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdate.month">month</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdate.year">year</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><code><span id="TYPEtime"><span class="keyword">type</span> <code class="type"></code>time</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtime.hours">hours</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtime.minutes">minutes</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtime.seconds">seconds</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtime.zone">zone</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><span id="TYPEflag"><span class="keyword">type</span> <code class="type"></code>flag</span> = <code class="type">[ `Answered<br>       | `Deleted<br>       | `Draft<br>       | `Extension of string<br>       | `Flagged<br>       | `Keyword of string<br>       | `Seen ]</code> </pre>
+<div class="info ">
+Message flags.  The underlying string of <code class="code"><span class="keywordsign">`</span><span class="constructor">Extension</span> s</code> is <code class="code"><span class="string">'\\'</span> ^ s</code>, while
+    <code class="code"><span class="keywordsign">`</span><span class="constructor">Keyword</span> s</code> is <code class="code">s</code>.<br>
+</div>
+
+
+<pre><span id="TYPEcapability"><span class="keyword">type</span> <code class="type"></code>capability</span> = <code class="type">[ `Acl<br>       | `Auth of [ `Anonymous | `Login | `Plain ]<br>       | `Binary<br>       | `Catenate<br>       | `Children<br>       | `Compress_deflate<br>       | `Condstore<br>       | `Enable<br>       | `Gmail<br>       | `Id<br>       | `Idle<br>       | `Literal_plus<br>       | `Multi_append<br>       | `Namespace<br>       | `Other of string<br>       | `Qresync<br>       | `Quote<br>       | `Sort<br>       | `Start_tls<br>       | `Uid_plus<br>       | `Unselect<br>       | `Xlist<br>       | `Xoauth2 ]</code> </pre>
+<div class="info ">
+List of standard capabilites.  These are returned by the <a href="Imap.html#VALcapability"><code class="code"><span class="constructor">Imap</span>.capability</code></a>
+    command, in status <a href="Imap.html#TYPEcode">codes</a> and can be enabled by the <a href="Imap.html#VALenable"><code class="code"><span class="constructor">Imap</span>.enable</code></a> command.<br>
+</div>
+
+<br>
+<h1 id="1_Typesforresponses">Types for responses</h1>
+<p>
+
+    These types describe all possible responses from the server.  Typically one
+    would pattern-match on the <a href="Imap.html#TYPEuntagged"><code class="code"><span class="constructor">Imap</span>.untagged</code></a> type to extract the desired data.
+    See the <a href="Imap.html#ex">examples.</a><br>
+
+<pre><span id="TYPEset"><span class="keyword">type</span> <code class="type"></code>set</span> = <code class="type">(<a href="Imap.html#TYPEuint32">uint32</a> * <a href="Imap.html#TYPEuint32">uint32</a>) list</code> </pre>
+<div class="info ">
+Message number (either sequence or UIDs) sets, as a union of intervals.  It
+    is the responsability of the client to make any necessary validity check, as
+    none is performed by the library.
+<p>
+
+    For example, the IMAP sequence set <code class="code">1,2:3</code> is represented by <code class="code">[(1, 1); (2, 3)]</code>.<br>
+</div>
+
+<br>
+<h3 id="3_Envelopeinformation">Envelope information</h3>
+<p>
+
+    It is returned when fetching the <code class="code"><span class="keywordsign">`</span><span class="constructor">Envelope</span></code> message
+    <a href="Imap.html#TYPEfetch_query">attribute</a> using the <a href="Imap.html#VALfetch"><code class="code"><span class="constructor">Imap</span>.fetch</code></a> command.
+<p>
+
+    If <code class="code"><span class="keyword">val</span> a : address</code>, then the expression
+<pre class="codepre"><code class="code"><span class="constructor">Printf</span>.printf&nbsp;<span class="string">"\"%s\"&nbsp;&lt;%s@%s&gt;"</span>&nbsp;a.ad_name&nbsp;a.ad_mailbox&nbsp;a.ad_host<br>
+</code></pre>
+    will output <code class="code">a</code> in the usual format <code class="code"><span class="string">"name"</span> &lt;user@host.com&gt;</code>.<br>
+
+<pre><code><span id="TYPEaddress"><span class="keyword">type</span> <code class="type"></code>address</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaddress.ad_name">ad_name</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaddress.ad_adl">ad_adl</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaddress.ad_mailbox">ad_mailbox</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaddress.ad_host">ad_host</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><code><span id="TYPEenvelope"><span class="keyword">type</span> <code class="type"></code>envelope</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTenvelope.env_date">env_date</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTenvelope.env_subject">env_subject</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTenvelope.env_from">env_from</span>&nbsp;: <code class="type"><a href="Imap.html#TYPEaddress">address</a> list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTenvelope.env_sender">env_sender</span>&nbsp;: <code class="type"><a href="Imap.html#TYPEaddress">address</a> list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTenvelope.env_reply_to">env_reply_to</span>&nbsp;: <code class="type"><a href="Imap.html#TYPEaddress">address</a> list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTenvelope.env_to">env_to</span>&nbsp;: <code class="type"><a href="Imap.html#TYPEaddress">address</a> list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTenvelope.env_cc">env_cc</span>&nbsp;: <code class="type"><a href="Imap.html#TYPEaddress">address</a> list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTenvelope.env_bcc">env_bcc</span>&nbsp;: <code class="type"><a href="Imap.html#TYPEaddress">address</a> list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTenvelope.env_in_reply_to">env_in_reply_to</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTenvelope.env_message_id">env_message_id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr></table>
+}
+
+
+<br>
+<h3 id="3_MIMEmessagestructure">MIME message structure</h3>
+<p>
+
+    The following types describe the bodies of
+    <a href="http://en.wikipedia.org/wiki/MIME">MIME</a> emails.  The IMAP server can
+    parse the MIME structure of the messages and return individual parts.  This
+    saves the client from having to do that parsing itself.  See
+    <ul>
+<li><a href="http://tools.ietf.org/html/rfc2045">RFC 2045: Format of Internet Message Bodies</a></li>
+<li><a href="http://tools.ietf.org/html/rfc2046">RFC 2046: Media Types</a></li>
+</ul>
+
+    and related RFCs for details.<br>
+
+<pre><code><span id="TYPEfields"><span class="keyword">type</span> <code class="type"></code>fields</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTfields.fld_params">fld_params</span>&nbsp;: <code class="type">(string * string) list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTfields.fld_id">fld_id</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTfields.fld_desc">fld_desc</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTfields.fld_enc">fld_enc</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTfields.fld_octets">fld_octets</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><span id="TYPEmime"><span class="keyword">type</span> <code class="type"></code>mime</span> = <code class="type">[ `Basic of string * string * <a href="Imap.html#TYPEfields">fields</a><br>       | `Message of <a href="Imap.html#TYPEfields">fields</a> * <a href="Imap.html#TYPEenvelope">envelope</a> * mime * int<br>       | `Multiple of mime list * string<br>       | `Text of string * <a href="Imap.html#TYPEfields">fields</a> * int ]</code> </pre>
+
+
+<pre><span id="TYPEsection"><span class="keyword">type</span> <code class="type"></code>section</span> = <code class="type">[ `All<br>       | `Header<br>       | `Header_fields of string list<br>       | `Header_fields_not of string list<br>       | `Mime<br>       | `Part of int * section<br>       | `Text ]</code> </pre>
+
+<br>
+<h3 id="3_Fetchresponses">Fetch responses</h3>
+<p>
+
+    Message attributes returned in the untagged <code class="code"><span class="keywordsign">`</span><span class="constructor">Fetch</span></code> <a href="Imap.html#TYPEuntagged">response</a>
+    to the <a href="Imap.html#VALfetch"><code class="code"><span class="constructor">Imap</span>.fetch</code></a> command.<br>
+
+<pre><span id="TYPEfetch_response"><span class="keyword">type</span> <code class="type"></code>fetch_response</span> = <code class="type">[ `Body of <a href="Imap.html#TYPEmime">mime</a><br>       | `Body_section of <a href="Imap.html#TYPEsection">section</a> * int option * string option<br>       | `Body_structure of <a href="Imap.html#TYPEmime">mime</a><br>       | `Envelope of <a href="Imap.html#TYPEenvelope">envelope</a><br>       | `Flags of<br>           [ `Answered<br>           | `Deleted<br>           | `Draft<br>           | `Extension of string<br>           | `Flagged<br>           | `Keyword of string<br>           | `Recent<br>           | `Seen ] list<br>       | `Gm_labels of string list<br>       | `Gm_msgid of <a href="Imap.html#TYPEuint64">uint64</a><br>       | `Gm_thrid of <a href="Imap.html#TYPEuint64">uint64</a><br>       | `Internal_date of <a href="Imap.html#TYPEdate">date</a> * <a href="Imap.html#TYPEtime">time</a><br>       | `Modseq of <a href="Imap.html#TYPEuint64">uint64</a><br>       | `Rfc822 of string option<br>       | `Rfc822_header of string option<br>       | `Rfc822_size of int<br>       | `Rfc822_text of string option<br>       | `Uid of <a href="Imap.html#TYPEuint32">uint32</a> ]</code> </pre>
+
+<br>
+<h3 id="3_Responsecodes">Response codes</h3>
+<p>
+
+    Status responses are <code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code>, <code class="code"><span class="keywordsign">`</span><span class="constructor">No</span></code>, <code class="code"><span class="keywordsign">`</span><span class="constructor">Bad</span></code>, <code class="code"><span class="keywordsign">`</span><span class="constructor">Preauth</span></code> and <code class="code"><span class="keywordsign">`</span><span class="constructor">Bye</span></code>.  <code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code>,
+    <code class="code"><span class="keywordsign">`</span><span class="constructor">No</span></code>, and <code class="code"><span class="keywordsign">`</span><span class="constructor">Bad</span></code> can be tagged or untagged.  <code class="code"><span class="keywordsign">`</span><span class="constructor">Preauth</span></code> and <code class="code"><span class="keywordsign">`</span><span class="constructor">Bye</span></code> are
+    always untagged.
+<p>
+
+    Status responses may include a "response code".  The response code contains
+    additional information or status codes for client software beyond the <code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code>,
+    <code class="code"><span class="keywordsign">`</span><span class="constructor">No</span></code>, <code class="code"><span class="keywordsign">`</span><span class="constructor">Bad</span></code>, and are defined when there is a specific action that a client
+    can take based upon the additional information.<br>
+
+<pre><span id="TYPEcode"><span class="keyword">type</span> <code class="type"></code>code</span> = <code class="type">[ `Alert<br>       | `Append_uid of <a href="Imap.html#TYPEuint32">uint32</a> * <a href="Imap.html#TYPEuint32">uint32</a><br>       | `Bad_charset of string list<br>       | `Capability of <a href="Imap.html#TYPEcapability">capability</a> list<br>       | `Closed<br>       | `Compression_active<br>       | `Copy_uid of<br>           <a href="Imap.html#TYPEuint32">uint32</a> * (<a href="Imap.html#TYPEuint32">uint32</a> * <a href="Imap.html#TYPEuint32">uint32</a>) list *<br>           (<a href="Imap.html#TYPEuint32">uint32</a> * <a href="Imap.html#TYPEuint32">uint32</a>) list<br>       | `Highest_modseq of <a href="Imap.html#TYPEuint64">uint64</a><br>       | `Modified of (<a href="Imap.html#TYPEuint32">uint32</a> * <a href="Imap.html#TYPEuint32">uint32</a>) list<br>       | `No_modseq<br>       | `None<br>       | `Other of string * string option<br>       | `Parse<br>       | `Permanent_flags of<br>           [ `All<br>           | `Answered<br>           | `Deleted<br>           | `Draft<br>           | `Extension of string<br>           | `Flagged<br>           | `Keyword of string<br>           | `Seen ] list<br>       | `Read_only<br>       | `Read_write<br>       | `Try_create<br>       | `Uid_next of <a href="Imap.html#TYPEuint32">uint32</a><br>       | `Uid_not_sticky<br>       | `Uid_validity of <a href="Imap.html#TYPEuint32">uint32</a><br>       | `Unseen of <a href="Imap.html#TYPEuint32">uint32</a><br>       | `Use_attr ]</code> </pre>
+
+<br>
+<h3 id="3_Mailboxflags">Mailbox flags</h3>
+<p>
+
+    Returned by the <a href="Imap.html#VALlist"><code class="code"><span class="constructor">Imap</span>.list</code></a> or <a href="Imap.html#VALlsub"><code class="code"><span class="constructor">Imap</span>.lsub</code></a> commands and also in some
+    status <a href="Imap.html#TYPEcode">codes</a>.<br>
+
+<pre><span id="TYPEmbx_flag"><span class="keyword">type</span> <code class="type"></code>mbx_flag</span> = <code class="type">[ `All<br>       | `Archive<br>       | `Drafts<br>       | `Extension of string<br>       | `Flagged<br>       | `HasChildren<br>       | `HasNoChildren<br>       | `Junk<br>       | `Marked<br>       | `Noinferiors<br>       | `Noselect<br>       | `Sent<br>       | `Trash<br>       | `Unmarked ]</code> </pre>
+
+<br>
+<h3 id="3_Mailboxstatusresponses">Mailbox status responses</h3>
+<p>
+
+    Mailbox status items returned in the untagged <code class="code"><span class="keywordsign">`</span><span class="constructor">Status</span></code>
+    <a href="Imap.html#TYPEuntagged">response</a> to the <a href="Imap.html#VALstatus"><code class="code"><span class="constructor">Imap</span>.status</code></a> command.<br>
+
+<pre><span id="TYPEstatus_response"><span class="keyword">type</span> <code class="type"></code>status_response</span> = <code class="type">[ `Highest_modseq of <a href="Imap.html#TYPEuint64">uint64</a><br>       | `Messages of int<br>       | `Recent of int<br>       | `Uid_next of <a href="Imap.html#TYPEuint32">uint32</a><br>       | `Uid_validity of <a href="Imap.html#TYPEuint32">uint32</a><br>       | `Unseen of <a href="Imap.html#TYPEuint32">uint32</a> ]</code> </pre>
+
+<br>
+<h3 id="3_Statusresponses">Status responses</h3>
+<p>
+
+    These can be either <a href="Imap.html#TYPEresponse">tagged</a> or <a href="Imap.html#TYPEuntagged">untagged</a>. The string
+    carries a human-readable explanation of the <a href="Imap.html#TYPEcode"><code class="code"><span class="constructor">Imap</span>.code</code></a>.<br>
+
+<pre><span id="TYPEstate"><span class="keyword">type</span> <code class="type"></code>state</span> = <code class="type">[ `Bad of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `No of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Ok of <a href="Imap.html#TYPEcode">code</a> * string ]</code> </pre>
+
+<br>
+<h3 id="3_Serverresponses">Server responses</h3>
+<p>
+
+    Sending a command will typically result in a sequence of <code class="code">untagged</code> items
+    being sent back, ending in a <code class="code"><span class="keywordsign">`</span><span class="constructor">Tagged</span></code> response.  Normally the user will not
+    deal with the type <a href="Imap.html#TYPEresponse"><code class="code"><span class="constructor">Imap</span>.response</code></a> directly, but rather with the type returned by
+    <a href="Imap.html#VALrun"><code class="code"><span class="constructor">Imap</span>.run</code></a>.<br>
+
+<pre><span id="TYPEuntagged"><span class="keyword">type</span> <code class="type"></code>untagged</span> = <code class="type">[ `Bad of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Bye of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Capability of <a href="Imap.html#TYPEcapability">capability</a> list<br>       | `Enabled of <a href="Imap.html#TYPEcapability">capability</a> list<br>       | `Exists of int<br>       | `Expunge of <a href="Imap.html#TYPEuint32">uint32</a><br>       | `Fetch of <a href="Imap.html#TYPEuint32">uint32</a> * <a href="Imap.html#TYPEfetch_response">fetch_response</a> list<br>       | `Flags of <a href="Imap.html#TYPEflag">flag</a> list<br>       | `List of <a href="Imap.html#TYPEmbx_flag">mbx_flag</a> list * char option * string<br>       | `Lsub of <a href="Imap.html#TYPEmbx_flag">mbx_flag</a> list * char option * string<br>       | `No of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Ok of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Preauth of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Recent of int<br>       | `Search of <a href="Imap.html#TYPEuint32">uint32</a> list * <a href="Imap.html#TYPEuint64">uint64</a> option<br>       | `Status of string * <a href="Imap.html#TYPEstatus_response">status_response</a> list<br>       | `Vanished of (<a href="Imap.html#TYPEuint32">uint32</a> * <a href="Imap.html#TYPEuint32">uint32</a>) list<br>       | `Vanished_earlier of (<a href="Imap.html#TYPEuint32">uint32</a> * <a href="Imap.html#TYPEuint32">uint32</a>) list ]</code> </pre>
+
+
+<pre><span id="TYPEresponse"><span class="keyword">type</span> <code class="type"></code>response</span> = <code class="type">[ `Bad of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Bye of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Capability of <a href="Imap.html#TYPEcapability">capability</a> list<br>       | `Cont of string<br>       | `Enabled of <a href="Imap.html#TYPEcapability">capability</a> list<br>       | `Exists of int<br>       | `Expunge of <a href="Imap.html#TYPEuint32">uint32</a><br>       | `Fetch of <a href="Imap.html#TYPEuint32">uint32</a> * <a href="Imap.html#TYPEfetch_response">fetch_response</a> list<br>       | `Flags of <a href="Imap.html#TYPEflag">flag</a> list<br>       | `List of <a href="Imap.html#TYPEmbx_flag">mbx_flag</a> list * char option * string<br>       | `Lsub of <a href="Imap.html#TYPEmbx_flag">mbx_flag</a> list * char option * string<br>       | `No of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Ok of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Preauth of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Recent of int<br>       | `Search of <a href="Imap.html#TYPEuint32">uint32</a> list * <a href="Imap.html#TYPEuint64">uint64</a> option<br>       | `Status of string * <a href="Imap.html#TYPEstatus_response">status_response</a> list<br>       | `Tagged of string * <a href="Imap.html#TYPEstate">state</a><br>       | `Vanished of (<a href="Imap.html#TYPEuint32">uint32</a> * <a href="Imap.html#TYPEuint32">uint32</a>) list<br>       | `Vanished_earlier of (<a href="Imap.html#TYPEuint32">uint32</a> * <a href="Imap.html#TYPEuint32">uint32</a>) list ]</code> </pre>
+
+<br>
+<h3 id="3_Prettyprintingresponses">Pretty printing responses</h3>
+<p>
+
+    Will print the given response in s-expression format.<br>
+
+<pre><span id="VALpp_response"><span class="keyword">val</span> pp_response</span> : <code class="type">Format.formatter -> [< <a href="Imap.html#TYPEresponse">response</a> ] -> unit</code></pre><br>
+<h1 id="1_Typesforqueries">Types for queries</h1>
+<p>
+
+    These types are used to describe queries to the server using the different
+    <a href="Imap.html#commands">commands</a>.<br>
+
+<pre><span id="TYPEeset"><span class="keyword">type</span> <code class="type"></code>eset</span> = <code class="type">(<a href="Imap.html#TYPEuint32">uint32</a> * <a href="Imap.html#TYPEuint32">uint32</a> option) list</code> </pre>
+<div class="info ">
+<em>Extended</em> message numbers sets, as a union of intervals.  The second
+    component of an interval being <code class="code"><span class="constructor">None</span></code> means that it should take the largest
+    possible value appearing in the mailbox (this is denoted <code class="code"><span class="string">'*'</span></code> in the IMAP
+    protocol).
+<p>
+
+    For example, the IMAP extended set <code class="code">1,2:3,4:*</code> will be represented by
+    <code class="code">[(1, <span class="constructor">Some</span> 1); (2, <span class="constructor">Some</span> 3); (4, <span class="constructor">None</span>)]</code>.<br>
+</div>
+
+
+<pre><span id="TYPEsearch_key"><span class="keyword">type</span> <code class="type"></code>search_key</span> = <code class="type">[ `All<br>       | `And of search_key * search_key<br>       | `Answered<br>       | `Bcc of string<br>       | `Before of <a href="Imap.html#TYPEdate">date</a><br>       | `Body of string<br>       | `Cc of string<br>       | `Deleted<br>       | `Draft<br>       | `Flagged<br>       | `From of string<br>       | `Gm_labels of string list<br>       | `Gm_msgid of <a href="Imap.html#TYPEuint64">uint64</a><br>       | `Gm_raw of string<br>       | `Gm_thrid of <a href="Imap.html#TYPEuint64">uint64</a><br>       | `Header of string * string<br>       | `Keyword of string<br>       | `Larger of int<br>       | `Modseq of <a href="Imap.html#TYPEuint64">uint64</a><br>       | `New<br>       | `Not of search_key<br>       | `Old<br>       | `On of <a href="Imap.html#TYPEdate">date</a><br>       | `Or of search_key * search_key<br>       | `Recent<br>       | `Seen<br>       | `Sent_before of <a href="Imap.html#TYPEdate">date</a><br>       | `Sent_on of <a href="Imap.html#TYPEdate">date</a><br>       | `Sent_since of <a href="Imap.html#TYPEdate">date</a><br>       | `Seq of <a href="Imap.html#TYPEeset">eset</a><br>       | `Since of <a href="Imap.html#TYPEdate">date</a><br>       | `Smaller of int<br>       | `Subject of string<br>       | `Text of string<br>       | `To of string<br>       | `Uid of <a href="Imap.html#TYPEeset">eset</a><br>       | `Unanswered<br>       | `Undeleted<br>       | `Undraft<br>       | `Unflagged<br>       | `Unkeyword of string<br>       | `Unseen ]</code> </pre>
+<div class="info ">
+Search keys. See <a href="Imap.html#VALsearch"><code class="code"><span class="constructor">Imap</span>.search</code></a> command.<br>
+</div>
+
+
+<pre><span id="TYPEfetch_query"><span class="keyword">type</span> <code class="type"></code>fetch_query</span> = <code class="type">[ `Body<br>       | `Body_section of [ `Look | `Peek ] * <a href="Imap.html#TYPEsection">section</a> * (int * int) option<br>       | `Body_structure<br>       | `Envelope<br>       | `Flags<br>       | `Internal_date<br>       | `Rfc822<br>       | `Rfc822_header<br>       | `Rfc822_size<br>       | `Rfc822_text<br>       | `Uid ]</code> </pre>
+<div class="info ">
+Message attributes that can be requested using the <a href="Imap.html#VALfetch"><code class="code"><span class="constructor">Imap</span>.fetch</code></a> command.<br>
+</div>
+
+
+<pre><span id="TYPEstatus_query"><span class="keyword">type</span> <code class="type"></code>status_query</span> = <code class="type">[ `Highest_modseq | `Messages | `Recent | `Uid_next | `Uid_validity | `Unseen ]</code> </pre>
+<div class="info ">
+Mailbox attibutes that can be requested with the <a href="Imap.html#VALstatus"><code class="code"><span class="constructor">Imap</span>.status</code></a> command.<br>
+</div>
+
+<br>
+<h1 id="commands">Commands</h1>
+<p>
+
+    These are the available commands that can be sent to an IMAP server.  Not
+    all commands will be supported in every IMAP server as they will depend on
+    certain capabilities being enabled.  A command is executed using <a href="Imap.html#VALrun"><code class="code"><span class="constructor">Imap</span>.run</code></a>.
+    It is a programmer error to try to run more than one command at the same
+    time.  If this is required, more than one connection should be opened to the
+    server.
+<p>
+
+    Some commands have a <code class="code">?uid</code> optional argument.  When <code class="code"><span class="keyword">true</span></code> it means to use
+    the variant of the command that uses UIDs (instead of sequence numbers).
+    See for example <a href="Imap.html#VALcopy"><code class="code"><span class="constructor">Imap</span>.copy</code></a>, <a href="Imap.html#VALsearch"><code class="code"><span class="constructor">Imap</span>.search</code></a>, <a href="Imap.html#VALfetch"><code class="code"><span class="constructor">Imap</span>.fetch</code></a> and <a href="Imap.html#VALstore_add_flags"><code class="code"><span class="constructor">Imap</span>.store_add_flags</code></a>.<br>
+
+<pre><span id="TYPEcommand"><span class="keyword">type</span> <code class="type"></code>command</span> </pre>
+<div class="info ">
+The type of client commands.  They are executed using <a href="Imap.html#VALrun"><code class="code"><span class="constructor">Imap</span>.run</code></a>.<br>
+</div>
+
+
+<pre><span id="VALlogin"><span class="keyword">val</span> login</span> : <code class="type">string -> string -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">login user pass</code> identifies the client to the server and carries the
+    plaintext password authenticating this <code class="code">user</code> with password <code class="code">pass</code>.  A
+    server MAY include a <code class="code"><span class="keywordsign">`</span><span class="constructor">Capability</span></code> response <a href="Imap.html#TYPEcode">code</a> in the tagged
+    <code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code> response to a successful <code class="code">login</code> command in order to send capabilities
+    automatically.<br>
+</div>
+
+<pre><span id="VALcapability"><span class="keyword">val</span> capability</span> : <code class="type"><a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">capability</code> returns the list of capabilities supported by the server.  The
+    server must send a single untagged <code class="code"><span class="keywordsign">`</span><span class="constructor">Capability</span></code> <a href="Imap.html#TYPEuntagged">response</a>
+    with "IMAP4rev1" as one of the listed capabilities before the (tagged) <code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code>
+    response.  See the type describing the possible
+    <a href="Imap.html#VALcapability">capabilities</a>.<br>
+</div>
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">string -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">create m</code> creates a mailbox named <code class="code">m</code>.  An <code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code> response is returned only
+    if a new mailbox with that name has been created.  It is an error to attempt
+    to create "INBOX" or a mailbox with a name that refers to an extant mailbox.
+    Any error in creation will return a tagged <code class="code"><span class="keywordsign">`</span><span class="constructor">No</span></code> response.<br>
+</div>
+
+<pre><span id="VALrename"><span class="keyword">val</span> rename</span> : <code class="type">string -> string -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">rename oldname newname</code> command changes the name of a mailbox from
+    <code class="code">oldname</code> to <code class="code">newname</code>.  A tagged <code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code> response is returned only if the
+    mailbox has been renamed.  It is an error to attempt to rename from a
+    mailbox name that does not exist or to a mailbox name that already exists.
+    Any error in renaming will return a tagged <code class="code"><span class="keywordsign">`</span><span class="constructor">No</span></code> response.<br>
+</div>
+
+<pre><span id="VALlogout"><span class="keyword">val</span> logout</span> : <code class="type"><a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">logout</code> gracefully terminates a session.  The server MUST send an untagged
+    <code class="code"><span class="keywordsign">`</span><span class="constructor">Bye</span></code> <a href="Imap.html#TYPEuntagged">response</a> before the (tagged) <code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code> response.<br>
+</div>
+
+<pre><span id="VALnoop"><span class="keyword">val</span> noop</span> : <code class="type"><a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">noop</code> does nothing.  Since any command can return a status update as
+    untagged data, the <code class="code">noop</code> command can be used as a periodic poll for new
+    messages or message status updates during a period of inactivity (this is
+    the preferred method to do this).<br>
+</div>
+
+<pre><span id="VALsubscribe"><span class="keyword">val</span> subscribe</span> : <code class="type">string -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">subscribe m</code> adds the mailbox <code class="code">m</code> to the server's set of "active" or
+    "subscribed" mailboxes as returned by the <a href="Imap.html#VALlsub"><code class="code"><span class="constructor">Imap</span>.lsub</code></a> command.<br>
+</div>
+
+<pre><span id="VALunsubscribe"><span class="keyword">val</span> unsubscribe</span> : <code class="type">string -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">unsubcribe m</code> removes the mailbox <code class="code">m</code> from the server's set of "active" or
+    "subscribed" mailboxes as returned by the <a href="Imap.html#VALlsub"><code class="code"><span class="constructor">Imap</span>.lsub</code></a> command.<br>
+</div>
+
+<pre><span id="VALlist"><span class="keyword">val</span> list</span> : <code class="type">?ref:string -> string -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">list ref m</code> returns a subset of names from the complete set of all names
+    available to the client.  Zero or more untagged <code class="code"><span class="keywordsign">`</span><span class="constructor">List</span></code>
+    <a href="Imap.html#TYPEuntagged">replies</a> are returned, containing the name attributes,
+    hierarchy delimiter.  The optional argument <code class="code">ref</code> is the name of a mailbox
+    or a level of mailbox hierarchy, and indicates the context in which the
+    mailbox name is interpreted.<br>
+</div>
+
+<pre><span id="VALlsub"><span class="keyword">val</span> lsub</span> : <code class="type">?ref:string -> string -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">lsub ref m</code> is identical to <a href="Imap.html#VALlist"><code class="code"><span class="constructor">Imap</span>.list</code></a>, except that it returns a subset of
+    names from the set of names that the user has declared as being "active" or
+    "subscribed".<br>
+</div>
+
+<pre><span id="VALstatus"><span class="keyword">val</span> status</span> : <code class="type">string -> <a href="Imap.html#TYPEstatus_query">status_query</a> list -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">status</code> requests <a href="Imap.html#TYPEstatus_query">status information</a> of the indicated
+    mailbox.  An untagged <code class="code"><span class="keywordsign">`</span><span class="constructor">Status</span></code> <a href="Imap.html#TYPEuntagged">response</a> is returned with
+    the requested information.<br>
+</div>
+
+<pre><span id="VALcopy"><span class="keyword">val</span> copy</span> : <code class="type">?uid:bool -> <a href="Imap.html#TYPEeset">eset</a> -> string -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">copy uid set m</code> copies the messages in <code class="code">set</code> to the end of the specified
+    mailbox <code class="code">m</code>.  <code class="code">set</code> is understood as a set of message UIDs if <code class="code">uid</code> is
+    <code class="code"><span class="keyword">true</span></code> (the default) or sequence numbers if <code class="code">uid</code> is <code class="code"><span class="keyword">false</span></code>.<br>
+</div>
+
+<pre><span id="VALcheck"><span class="keyword">val</span> check</span> : <code class="type"><a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">check</code> requests a checkpoint of the currently selected mailbox.  A
+    checkpoint refers to any implementation-dependent housekeeping associated
+    with the mailbox.<br>
+</div>
+
+<pre><span id="VALclose"><span class="keyword">val</span> close</span> : <code class="type"><a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">close</code> permanently removes all messages that have the <code class="code"><span class="keywordsign">`</span><span class="constructor">Deleted</span></code>
+    <a href="Imap.html#TYPEflag"><code class="code"><span class="constructor">Imap</span>.flag</code></a> set from the currently selected mailbox, and returns to
+    the authenticated state from the selected state.<br>
+</div>
+
+<pre><span id="VALexpunge"><span class="keyword">val</span> expunge</span> : <code class="type"><a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">expunge</code> permanently removes all messages that have the <code class="code"><span class="keywordsign">`</span><span class="constructor">Deleted</span></code>
+    <a href="Imap.html#TYPEflag"><code class="code"><span class="constructor">Imap</span>.flag</code></a> set from the currently selected mailbox.  Before
+    returning an <code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code> to the client, an untagged <code class="code"><span class="keywordsign">`</span><span class="constructor">Expunge</span></code>
+    <a href="Imap.html#TYPEuntagged">response</a> is sent for each message that is removed.<br>
+</div>
+
+<pre><span id="VALsearch"><span class="keyword">val</span> search</span> : <code class="type">?uid:bool -> <a href="Imap.html#TYPEsearch_key">search_key</a> -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">search uid sk</code> searches the mailbox for messages that match the given
+    searching criteria.  If <code class="code">uid</code> is <code class="code"><span class="keyword">true</span></code> (the default), then the matching
+    messages' unique identification numbers are returned.  Otherwise, their
+    sequence numbers are.  The untagged <code class="code"><span class="keywordsign">`</span><span class="constructor">Search</span></code> <a href="Imap.html#TYPEuntagged">response</a>
+    from the server contains a listing of message numbers corresponding to those
+    messages that match the searching criteria.<br>
+</div>
+
+<pre><span id="VALselect"><span class="keyword">val</span> select</span> : <code class="type">?condstore:bool -> string -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">select condstore m</code> selects the mailbox <code class="code">m</code> so that its messages can be
+    accessed.  If <code class="code">condstore</code> (default value <code class="code"><span class="keyword">false</span></code>) is <code class="code"><span class="keyword">true</span></code>, then the server
+    will return the <code class="code"><span class="keywordsign">`</span><span class="constructor">Modseq</span></code> data item in all subsequent untagged <code class="code"><span class="keywordsign">`</span><span class="constructor">Fetch</span></code>
+    <a href="Imap.html#TYPEuntagged">responses</a>.<br>
+</div>
+
+<pre><span id="VALexamine"><span class="keyword">val</span> examine</span> : <code class="type">?condstore:bool -> string -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">examine condstore m</code> is identical to <code class="code">select condstore m</code> and returns the
+    same output; however, the selected mailbox is identified as read-only.<br>
+</div>
+
+<pre><span id="VALappend"><span class="keyword">val</span> append</span> : <code class="type">string -> ?flags:<a href="Imap.html#TYPEflag">flag</a> list -> string -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">append m flags id data</code> appends <code class="code">data</code> as a new message to the end of the
+    mailbox <code class="code">m</code>.  This argument should be in the format of an <code class="code"><span class="constructor">RFC</span>-2822</code>
+    message.
+<p>
+
+    If a flag list is specified, the flags should be set in the resulting
+    message; otherwise, the flag list of the resulting message is set to empty
+    by default.  In either case, the <code class="code"><span class="keywordsign">`</span><span class="constructor">Recent</span></code> flag is also set.<br>
+</div>
+<br>
+<h2 id="2_Fetchcommands">Fetch commands</h2>
+<p>
+
+    The IMAP <code class="code"><span class="constructor">FETCH</span></code> command is used to retrieve the data associated to a
+    message (or a set of messages).  Messages are identified either by their
+    sequence number (i.e., their position in the mailbox), or by their unique
+    identification number (UID).
+<p>
+
+    For those servers that support the <code class="code"><span class="constructor">CONDSTORE</span></code> extension, one can pass a
+    mod-sequence value <code class="code">?changed</code> to restrict the set of affected messages to
+    those that are not yet known by the client.  One can further use the
+    <code class="code">?vanished</code> argument to learn of recently expunged messages.  It is a
+    programmer error to set <code class="code">?vanished</code> to <code class="code"><span class="keyword">true</span></code> but not to pass a value for
+    <code class="code">?changed</code>.<br>
+
+<pre><span id="VALfetch"><span class="keyword">val</span> fetch</span> : <code class="type">?uid:bool -><br>       ?changed:<a href="Imap.html#TYPEuint64">uint64</a> -><br>       ?vanished:bool -> <a href="Imap.html#TYPEeset">eset</a> -> <a href="Imap.html#TYPEfetch_query">fetch_query</a> list -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">fetch uid changed vanished set att</code> retrieves data associated with the
+    message set <code class="code">set</code> in the current mailbox.  <code class="code">set</code> is interpeted as being a
+    set of UIDs or sequence numbers depending on whether <code class="code">uid</code> is <code class="code"><span class="keyword">true</span></code> (the
+    default) or <code class="code"><span class="keyword">false</span></code>.  Specifying a <code class="code">?changed</code> argument will further reduce
+    the set of returned messages to those whose <code class="code"><span class="constructor">CHANGEDSINCE</span></code> mod-sequence
+    value is at least the passed value (requires the <code class="code"><span class="constructor">CONDSTORE</span></code> extension).
+    The <code class="code">vanished</code> optional parameter specifies whether one wants to receive
+    <code class="code"><span class="keywordsign">`</span><span class="constructor">Vanished</span></code> responses as well.<br>
+</div>
+
+<pre><span id="VALfetch_all"><span class="keyword">val</span> fetch_all</span> : <code class="type">?uid:bool -><br>       ?changed:<a href="Imap.html#TYPEuint64">uint64</a> -> ?vanished:bool -> <a href="Imap.html#TYPEeset">eset</a> -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">fetch_all uid changed vanished set</code> is equivalent to <code class="code">fetch uid changed vanished set a</code>, where
+    <code class="code">a = [<span class="keywordsign">`</span><span class="constructor">Flags</span>; <span class="keywordsign">`</span><span class="constructor">Internal_date</span>; <span class="keywordsign">`</span><span class="constructor">Rfc822_size</span>; <span class="keywordsign">`</span><span class="constructor">Envelope</span>]</code>.<br>
+</div>
+
+<pre><span id="VALfetch_fast"><span class="keyword">val</span> fetch_fast</span> : <code class="type">?uid:bool -><br>       ?changed:<a href="Imap.html#TYPEuint64">uint64</a> -> ?vanished:bool -> <a href="Imap.html#TYPEeset">eset</a> -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">fetch_fast uid changed vanished set</code> is equivalent to <code class="code">fetch uid changed vanished set a</code>, where
+    <code class="code">a = [<span class="keywordsign">`</span><span class="constructor">Flags</span>; <span class="keywordsign">`</span><span class="constructor">Internal_date</span>; <span class="keywordsign">`</span><span class="constructor">Rfc822_size</span>]</code>.<br>
+</div>
+
+<pre><span id="VALfetch_full"><span class="keyword">val</span> fetch_full</span> : <code class="type">?uid:bool -><br>       ?changed:<a href="Imap.html#TYPEuint64">uint64</a> -> ?vanished:bool -> <a href="Imap.html#TYPEeset">eset</a> -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">fetch_full u c v s</code> is equivalent to <code class="code">fetch u c v s a</code> where
+    <code class="code">a = [<span class="keywordsign">`</span><span class="constructor">Flags</span>; <span class="keywordsign">`</span><span class="constructor">Internal_date</span>; <span class="keywordsign">`</span><span class="constructor">Rfc822_size</span>; <span class="keywordsign">`</span><span class="constructor">Envelope</span>; <span class="keywordsign">`</span><span class="constructor">Body</span>]</code>.<br>
+</div>
+<br>
+<h2 id="2_Storecommands">Store commands</h2><br>
+
+<pre><span id="VALstore_add_flags"><span class="keyword">val</span> store_add_flags</span> : <code class="type">?uid:bool -><br>       ?silent:bool -><br>       ?unchanged:<a href="Imap.html#TYPEuint64">uint64</a> -> <a href="Imap.html#TYPEeset">eset</a> -> <a href="Imap.html#TYPEflag">flag</a> list -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">store_add_flags uid silent unchanged set flags</code> adds flags <code class="code">flags</code> to the
+    message set <code class="code">set</code>.  <code class="code">set</code> is interpreter as being a set of UIDs or sequence
+    numbers depending on whether <code class="code">uid</code> is <code class="code"><span class="keyword">true</span></code> (the default) or <code class="code"><span class="keyword">false</span></code>.  The
+    server will return the updated flags for the affected messages in untagged
+    <code class="code"><span class="keywordsign">`</span><span class="constructor">Fetch</span></code> <a href="Imap.html#TYPEuntagged">responses</a> depending on whether <code class="code">silent</code> is <code class="code"><span class="keyword">true</span></code> (the
+    default) or <code class="code"><span class="keyword">false</span></code>.  Specifying a <code class="code">?unchanged</code> argument will further reduce
+    the set of affected messages to those whose <code class="code"><span class="constructor">UNCHANGEDSINCE</span></code> mod-sequence
+    value is at least the passed value (requires the <code class="code"><span class="constructor">CONDSTORE</span></code> extension).<br>
+</div>
+
+<pre><span id="VALstore_set_flags"><span class="keyword">val</span> store_set_flags</span> : <code class="type">?uid:bool -><br>       ?silent:bool -><br>       ?unchanged:<a href="Imap.html#TYPEuint64">uint64</a> -> <a href="Imap.html#TYPEeset">eset</a> -> <a href="Imap.html#TYPEflag">flag</a> list -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">store_set_flags</code> is like <a href="Imap.html#VALstore_add_flags"><code class="code"><span class="constructor">Imap</span>.store_add_flags</code></a> but replaces the set of flags
+    instead of adding to it.<br>
+</div>
+
+<pre><span id="VALstore_remove_flags"><span class="keyword">val</span> store_remove_flags</span> : <code class="type">?uid:bool -><br>       ?silent:bool -><br>       ?unchanged:<a href="Imap.html#TYPEuint64">uint64</a> -> <a href="Imap.html#TYPEeset">eset</a> -> <a href="Imap.html#TYPEflag">flag</a> list -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">store_remove_flags</code> is like <a href="Imap.html#VALstore_add_flags"><code class="code"><span class="constructor">Imap</span>.store_add_flags</code></a> but removes flags instead of
+    adding them.<br>
+</div>
+
+<pre><span id="VALstore_add_labels"><span class="keyword">val</span> store_add_labels</span> : <code class="type">?uid:bool -><br>       ?silent:bool -><br>       ?unchanged:<a href="Imap.html#TYPEuint64">uint64</a> -> <a href="Imap.html#TYPEeset">eset</a> -> string list -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">store_add_labels</code> is like <a href="Imap.html#VALstore_add_flags"><code class="code"><span class="constructor">Imap</span>.store_add_flags</code></a> but adds
+    <a href="https://developers.google.com/gmail/imap_extensions">Gmail</a> <em>labels</em>
+    instead of regular flags.<br>
+</div>
+
+<pre><span id="VALstore_set_labels"><span class="keyword">val</span> store_set_labels</span> : <code class="type">?uid:bool -><br>       ?silent:bool -><br>       ?unchanged:<a href="Imap.html#TYPEuint64">uint64</a> -> <a href="Imap.html#TYPEeset">eset</a> -> string list -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">store_set_labels</code> is like <a href="Imap.html#VALstore_add_labels"><code class="code"><span class="constructor">Imap</span>.store_add_labels</code></a> but replaces the set of
+    labels instead of adding to it.<br>
+</div>
+
+<pre><span id="VALstore_remove_labels"><span class="keyword">val</span> store_remove_labels</span> : <code class="type">?uid:bool -><br>       ?silent:bool -><br>       ?unchanged:<a href="Imap.html#TYPEuint64">uint64</a> -> <a href="Imap.html#TYPEeset">eset</a> -> string list -> <a href="Imap.html#TYPEcommand">command</a></code></pre><div class="info ">
+<code class="code">store_remove_labels</code> is like <a href="Imap.html#VALstore_add_labels"><code class="code"><span class="constructor">Imap</span>.store_add_labels</code></a> but removes labels instead
+    of adding them.<br>
+</div>
+
+<pre><span id="VALenable"><span class="keyword">val</span> enable</span> : <code class="type"><a href="Imap.html#TYPEcapability">capability</a> list -> <a href="Imap.html#TYPEcommand">command</a></code></pre><br>
+<h1 id="1_Authenticators">Authenticators</h1>
+<p>
+
+    These are used to implement SASL authentication. SASL authentication is
+    initiated by passing <code class="code"><span class="keywordsign">`</span><span class="constructor">Authenticate</span></code> to <a href="Imap.html#VALrun"><code class="code"><span class="constructor">Imap</span>.run</code></a> and typically would occur
+    right after receiving the server greeting.
+<p>
+
+    The authentication protocol exchange consists of a series of server
+    challenges and client responses that are specific to the authentication
+    mechanism.  If <code class="code">a</code> is the authenticator being used, <code class="code">a.step</code> will be called
+    with each of the server's challenges.  The return value of <code class="code">a.step</code> can
+    signal an error or give the corresponding response.
+<p>
+
+    <code class="code">step</code> functions do <em>not</em> have to perform base64-encoding and decoding, as
+    this is handled automatically by the library.
+<p>
+
+    The implementation of particular SASL authenticaton methods is outside the
+    scope of this library and should be provided independently. Only <code class="code"><span class="constructor">PLAIN</span></code> and
+    <code class="code"><span class="constructor">XOAUTH2</span></code> are provided as way of example.<br>
+
+<pre><code><span id="TYPEauthenticator"><span class="keyword">type</span> <code class="type"></code>authenticator</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTauthenticator.name">name</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTauthenticator.step">step</span>&nbsp;: <code class="type">string -> [ `Error of string | `Ok of string ]</code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><span id="VALplain"><span class="keyword">val</span> plain</span> : <code class="type">string -> string -> <a href="Imap.html#TYPEauthenticator">authenticator</a></code></pre><div class="info ">
+<code class="code">plain user pass</code> authenticates via <code class="code"><span class="constructor">PLAIN</span></code> mechanism using username <code class="code">user</code>
+    and password <code class="code">pass</code>.<br>
+</div>
+
+<pre><span id="VALxoauth2"><span class="keyword">val</span> xoauth2</span> : <code class="type">string -> string -> <a href="Imap.html#TYPEauthenticator">authenticator</a></code></pre><div class="info ">
+<code class="code">xoauth2 user token</code> authenticates via <code class="code"><span class="constructor">XOAUTH2</span></code> mechanishm user username
+    <code class="code">user</code> and access token <code class="code">token</code>.  The access token should be obtained
+    independently.<br>
+</div>
+<br>
+<h1 id="1_Runningcommandsandreceivingresponses">Running commands and receiving responses</h1><br>
+
+<pre><span id="TYPEerror"><span class="keyword">type</span> <code class="type"></code>error</span> = <code class="type">[ `Auth_error of string<br>       | `Bad of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Bad_greeting<br>       | `Decode_error of<br>           [ `Expected_char of char<br>           | `Expected_string of string<br>           | `Illegal_char of char<br>           | `Unexpected_char of char<br>           | `Unexpected_eoi<br>           | `Unexpected_string of string ] * string * int<br>       | `Incorrect_tag of string * string<br>       | `No of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Unexpected_cont ]</code> </pre>
+
+
+<pre><span id="VALpp_error"><span class="keyword">val</span> pp_error</span> : <code class="type">Format.formatter -> <a href="Imap.html#TYPEerror">error</a> -> unit</code></pre><br>
+<h3 id="3_Connections">Connections</h3>
+<p>
+
+    <a href="Imap.html#VALconnection">Connections</a> manage the encoder and decoder states and keeps
+    track of message tags.<br>
+
+<pre><span id="TYPEconnection"><span class="keyword">type</span> <code class="type"></code>connection</span> </pre>
+<div class="info ">
+The type for connections.<br>
+</div>
+
+
+<pre><span id="VALconnection"><span class="keyword">val</span> connection</span> : <code class="type">unit -> <a href="Imap.html#TYPEconnection">connection</a></code></pre><div class="info ">
+<code class="code">connection ()</code> creates a new connection object.  The connection should be
+    supplied with input and output buffers as necessary using <a href="Imap.html#VALsrc"><code class="code"><span class="constructor">Imap</span>.src</code></a> and <a href="Imap.html#VALdst"><code class="code"><span class="constructor">Imap</span>.dst</code></a>.
+    Other that that, it is completely independent of any particular connection
+    and/or IO mechanism.
+<p>
+
+    After creation, the connection should be run with <code class="code"><span class="keywordsign">`</span><span class="constructor">Await</span></code> until <code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code> to
+    process the server greeting and start issuing commands.
+<p>
+
+    See the <a href="Imap.html#ex">examples</a>.<br>
+</div>
+<br>
+<h3 id="3_IOinterface">I/O interface</h3>
+<p>
+
+    The following functions are used to provide input and/or output buffers to
+    <a href="Imap.html#VALrun"><code class="code"><span class="constructor">Imap</span>.run</code></a> when it returns <code class="code"><span class="keywordsign">`</span><span class="constructor">Await_src</span></code> and/or <code class="code"><span class="keywordsign">`</span><span class="constructor">Await_dst</span></code>.<br>
+
+<pre><span id="VALsrc"><span class="keyword">val</span> src</span> : <code class="type"><a href="Imap.html#TYPEconnection">connection</a> -> string -> int -> int -> unit</code></pre><div class="info ">
+<code class="code">src c s i l</code> provides <code class="code">c</code> with input taken from <code class="code">l</code> bytes from <code class="code">s</code> starting
+    at <code class="code">i</code>.<br>
+</div>
+
+<pre><span id="VALdst"><span class="keyword">val</span> dst</span> : <code class="type"><a href="Imap.html#TYPEconnection">connection</a> -> string -> int -> int -> unit</code></pre><div class="info ">
+<code class="code">dst c s i l</code> provides <code class="code">c</code> with <code class="code">l</code> bytes of output storage in <code class="code">s</code> starting
+    at <code class="code">i</code>.<br>
+</div>
+
+<pre><span id="VALdst_rem"><span class="keyword">val</span> dst_rem</span> : <code class="type"><a href="Imap.html#TYPEconnection">connection</a> -> int</code></pre><div class="info ">
+<code class="code">dst_rem c</code> is the number of bytes still available for output in the
+    current output buffer of <code class="code">c</code>.<br>
+</div>
+<br>
+<h3 id="3_Executingcommands">Executing commands</h3>
+<p>
+
+    The <a href="Imap.html#VALrun"><code class="code"><span class="constructor">Imap</span>.run</code></a> function encodes the connection state machine.  A connection <code class="code">c</code>
+    can be in three states: <em>awaiting the server greeting</em>, <em>executing a
+    command</em>, or <em>awaiting commands</em>.
+<p>
+
+    After <a href="Imap.html#VALconnection">creation</a>, <code class="code">c</code> is <em>awaiting the server
+    greeting.</em>  <a href="Imap.html#VALrun"><code class="code"><span class="constructor">Imap</span>.run</code></a> must be passed <code class="code"><span class="keywordsign">`</span><span class="constructor">Await</span></code> until getting back <code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code> which
+    signals that the greeting has been received and <code class="code">c</code> is now <em>awaiting
+    commands.</em>  A command can then be initiated by passing <code class="code"><span class="keywordsign">`</span><span class="constructor">Cmd</span></code>, <code class="code"><span class="keywordsign">`</span><span class="constructor">Idle</span></code> or
+    <code class="code"><span class="keywordsign">`</span><span class="constructor">Authenticate</span></code>.  After a command is initiated, <code class="code">c</code> will be <em>executing a
+    command</em> and <a href="Imap.html#VALrun"><code class="code"><span class="constructor">Imap</span>.run</code></a> will return a sequence of <code class="code"><span class="keywordsign">`</span><span class="constructor">Await_src</span></code> and/or
+    <code class="code"><span class="keywordsign">`</span><span class="constructor">Await_dst</span></code> values interspaced with <code class="code"><span class="keywordsign">`</span><span class="constructor">Untagged</span></code> values, and finally ending
+    with <code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code>.  The client should call <a href="Imap.html#VALrun"><code class="code"><span class="constructor">Imap</span>.run</code></a> with <code class="code"><span class="keywordsign">`</span><span class="constructor">Await</span></code> to step through
+    this process (possibly after providing more input and output storage using
+    <a href="Imap.html#VALsrc"><code class="code"><span class="constructor">Imap</span>.src</code></a> and <a href="Imap.html#VALdst"><code class="code"><span class="constructor">Imap</span>.dst</code></a>).
+<p>
+
+    After returning <code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code>, <code class="code">c</code> is again <em>awaiting commands</em> and the process can be
+    reinitiated.
+<p>
+
+    It is an error to execute a command if <code class="code">c</code> is not <em>awaiting commands.</em>  The
+    only exception to this is that <code class="code"><span class="keywordsign">`</span><span class="constructor">Idle_done</span></code> can be executed while <code class="code"><span class="keywordsign">`</span><span class="constructor">Idle</span></code> is
+    in progress.
+<p>
+
+    See the <a href="Imap.html#ex">examples.</a><br>
+
+<pre><span id="VALrun"><span class="keyword">val</span> run</span> : <code class="type"><a href="Imap.html#TYPEconnection">connection</a> -><br>       [ `Authenticate of <a href="Imap.html#TYPEauthenticator">authenticator</a><br>       | `Await<br>       | `Cmd of <a href="Imap.html#TYPEcommand">command</a><br>       | `Idle<br>       | `Idle_done ] -><br>       [ `Await_dst<br>       | `Await_src<br>       | `Error of <a href="Imap.html#TYPEerror">error</a><br>       | `Ok of <a href="Imap.html#TYPEcode">code</a> * string<br>       | `Untagged of <a href="Imap.html#TYPEuntagged">untagged</a> ]</code></pre><div class="info ">
+<code class="code">run c v</code> performs <code class="code">v</code> on the connection <code class="code">c</code>.  The meaning of the different values
+    of <code class="code">v</code> is:
+    <ul>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Cmd</span> c</code>: execute the <a href="Imap.html#TYPEcommand"><code class="code"><span class="constructor">Imap</span>.command</code></a> <code class="code">c</code>.</li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Await</span></code>: perform periodic IO processing to complete the execution of currently
+       executing command.</li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Idle</span></code>: start IDLE command.  When this command is executing the client will receive
+       a stream of incoming untagged <a href="Imap.html#TYPEuntagged">responses</a> until IDLE ends.  IDLE can end by server
+       decision of by passing <code class="code">v = <span class="keywordsign">`</span><span class="constructor">Idle_run</span></code>.  See the relevent
+       <a href="https://tools.ietf.org/html/rfc2177">RFC</a> and the <a href="Imap.html#ex">examples</a> for more details.</li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Idle_done</span></code>: stop IDLE command.</li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Authenticate</span> a</code>: perform SASL authentication using the <a href="Imap.html#TYPEauthenticator"><code class="code"><span class="constructor">Imap</span>.authenticator</code></a> <code class="code">a</code>.</li>
+</ul>
+
+<p>
+
+    The value of <code class="code">run c v</code> is:
+    <ul>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Untagged</span> u</code> if an untagged <a href="Imap.html#TYPEuntagged">response</a> has been received from the
+       server.</li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code> if no command is in progress and the server is ready to receive a new
+       command from the client.</li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Error</span> e</code> if an error ocurred during the processing of the current command.
+       If the <a href="Imap.html#TYPEerror"><code class="code"><span class="constructor">Imap</span>.error</code></a> is not fatal, then the client can continue using this connection.
+       Otherwise, the connection should be discarded immediately.</li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Await_src</span></code> if the connection is awaiting for more input.  The client must use
+       <a href="Imap.html#VALsrc"><code class="code"><span class="constructor">Imap</span>.src</code></a> to provide a new buffer and then call <a href="Imap.html#VALrun"><code class="code"><span class="constructor">Imap</span>.run</code></a> with <code class="code"><span class="keywordsign">`</span><span class="constructor">Await</span></code>.</li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Await_dst</span></code> if the connection needs more output storage.  The client must use
+       <a href="Imap.html#VALdst"><code class="code"><span class="constructor">Imap</span>.dst</code></a> to provide a new buffer and then call <a href="Imap.html#VALrun"><code class="code"><span class="constructor">Imap</span>.run</code></a> with <code class="code"><span class="keywordsign">`</span><span class="constructor">Await</span></code>.</li>
+</ul>
+<br>
+</div>
+<br>
+<h1 id="limitations">Supported extensions and limitations</h1>
+<p>
+
+    The following extensions are supported:<ul>
+<li><a href="https://tools.ietf.org/html/rfc4551">CONDSTORE</a></li>
+<li><a href="https://tools.ietf.org/html/rfc5162">QRESYNC</a></li>
+<li><a href="http://tools.ietf.org/html/rfc5161">ENABLE</a></li>
+<li><a href="https://tools.ietf.org/html/rfc4315">UIDPLUS</a></li>
+<li><a href="https://tools.ietf.org/html/rfc6154">SPECIAL-USE</a></li>
+<li><a href="https://tools.ietf.org/html/rfc2177">IDLE</a></li>
+<li><a href="https://developers.google.com/gmail/imap_extensions">X-GM-EXT-1</a></li>
+</ul>
+
+    <h3 id="3_Limitations">Limitations</h3>
+<p>
+
+    Error handling is very simplistic.  In particular there is no error recovery
+    from simple parsing errors.  Some form of this could be added if
+    required.<br>
+<br>
+<h1 id="ex">Example: checking for new mail</h1>
+<p>
+
+    <code class="code">wait_mail host port user pass mbox</code> logs into the IMAP server
+    <code class="code">host</code> on port <code class="code">port</code> over <a href="https://github.com/savonet/ocaml-ssl">SSL</a>,
+    authenticates user <code class="code">user</code> with password <code class="code">pass</code> and watches mailbox <code class="code">mbox</code> until a
+    new message arrives.  When a new message arrives, it outputs the sender's name
+    and address and stops.
+<p>
+
+    See the
+    <a href="https://github.com/nojb/ocaml-imap/blob/master/test/wait_mail.ml">wait_mail.ml</a>
+    file for a more complete version of this example.
+<p>
+
+    Setting <code class="code">debug_flag := <span class="keyword">true</span></code> will output all the data exchanged with the
+    server which can be quite instructive.
+<p>
+
+<pre class="codepre"><code class="code"><span class="keyword">let</span>&nbsp;debug_flag&nbsp;=&nbsp;ref&nbsp;<span class="keyword">false</span><br>
+</code></pre>
+<p>
+
+    The function <code class="code">run</code> takes care of managing I/O.
+<p>
+
+<pre class="codepre"><code class="code">&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;v&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Imap</span>.untagged&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;]&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;<span class="keyword">rec</span>&nbsp;write_fully&nbsp;s&nbsp;off&nbsp;len&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;len&nbsp;&gt;&nbsp;0&nbsp;<span class="keyword">then</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;rc&nbsp;=&nbsp;<span class="constructor">Ssl</span>.write&nbsp;sock&nbsp;s&nbsp;off&nbsp;len&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_fully&nbsp;s&nbsp;(off&nbsp;+&nbsp;rc)&nbsp;(len&nbsp;-&nbsp;rc)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;<span class="keyword">rec</span>&nbsp;loop&nbsp;=&nbsp;<span class="keyword">function</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Await_src</span>&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;rc&nbsp;=&nbsp;<span class="constructor">Ssl</span>.read&nbsp;sock&nbsp;i&nbsp;0&nbsp;(<span class="constructor">Bytes</span>.length&nbsp;i)&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;!debug_flag&nbsp;<span class="keyword">then</span>&nbsp;<span class="constructor">Format</span>.eprintf&nbsp;<span class="string">"&gt;&gt;&gt;&nbsp;%d\n%s&gt;&gt;&gt;\n%!"</span>&nbsp;rc&nbsp;(<span class="constructor">String</span>.sub&nbsp;i&nbsp;0&nbsp;rc);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Imap</span>.src&nbsp;c&nbsp;i&nbsp;0&nbsp;rc;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loop&nbsp;(<span class="constructor">Imap</span>.run&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Await_dst</span>&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;rc&nbsp;=&nbsp;<span class="constructor">Bytes</span>.length&nbsp;o&nbsp;-&nbsp;<span class="constructor">Imap</span>.dst_rem&nbsp;c&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write_fully&nbsp;o&nbsp;0&nbsp;rc;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;!debug_flag&nbsp;<span class="keyword">then</span>&nbsp;<span class="constructor">Format</span>.eprintf&nbsp;<span class="string">"&lt;&lt;&lt;&nbsp;%d\n%s&lt;&lt;&lt;\n%!"</span>&nbsp;rc&nbsp;(<span class="constructor">String</span>.sub&nbsp;o&nbsp;0&nbsp;rc);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Imap</span>.dst&nbsp;c&nbsp;o&nbsp;0&nbsp;(<span class="constructor">Bytes</span>.length&nbsp;o);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loop&nbsp;(<span class="constructor">Imap</span>.run&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;_&nbsp;<span class="keyword">as</span>&nbsp;r&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;r<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Error</span>&nbsp;e&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Format</span>.eprintf&nbsp;<span class="string">"@[IMAP&nbsp;Error:&nbsp;%a@]@."</span>&nbsp;<span class="constructor">Imap</span>.pp_error&nbsp;e;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;failwith&nbsp;<span class="string">"imap&nbsp;error"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;loop&nbsp;(<span class="constructor">Imap</span>.run&nbsp;c&nbsp;v)<br>
+</code></pre>
+<p>
+
+    In order to detect new messages, we record the next UID value of the
+    <code class="code"><span class="constructor">INBOX</span></code> mailbox as soon as we open it.  Then we wait for the server to
+    alert us of activity in this mailbox using the <a href="Imap.html#VALrun">idle</a> command.  And we look
+    for messages with UIDs larger than this one using the <a href="Imap.html#VALsearch"><code class="code"><span class="constructor">Imap</span>.search</code></a> command.
+<p>
+
+<pre class="codepre"><code class="code">&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;()&nbsp;=&nbsp;<span class="constructor">Ssl</span>.init&nbsp;()<br>
+<br>
+&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;wait_mail&nbsp;host&nbsp;port&nbsp;user&nbsp;pass&nbsp;mbox&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;fd&nbsp;=&nbsp;<span class="constructor">Unix</span>.socket&nbsp;<span class="constructor">Unix</span>.<span class="constructor">PF_INET</span>&nbsp;<span class="constructor">Unix</span>.<span class="constructor">SOCK_STREAM</span>&nbsp;0&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;he&nbsp;=&nbsp;<span class="constructor">Unix</span>.gethostbyname&nbsp;host&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Unix</span>.connect&nbsp;fd&nbsp;(<span class="constructor">Unix</span>.<span class="constructor">ADDR_INET</span>&nbsp;(he.<span class="constructor">Unix</span>.h_addr_list.(0),&nbsp;port));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;ctx&nbsp;=&nbsp;<span class="constructor">Ssl</span>.create_context&nbsp;<span class="constructor">Ssl</span>.<span class="constructor">TLSv1</span>&nbsp;<span class="constructor">Ssl</span>.<span class="constructor">Client_context</span>&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;sock&nbsp;=&nbsp;<span class="constructor">Ssl</span>.embed_socket&nbsp;fd&nbsp;ctx&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Ssl</span>.connect&nbsp;sock;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;c&nbsp;=&nbsp;<span class="constructor">Imap</span>.connection&nbsp;<span class="keywordsign">`</span><span class="constructor">Manual</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Manual</span>&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;i&nbsp;=&nbsp;<span class="constructor">Bytes</span>.create&nbsp;io_buffer_size&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;o&nbsp;=&nbsp;<span class="constructor">Bytes</span>.create&nbsp;io_buffer_size&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Imap</span>.dst&nbsp;c&nbsp;o&nbsp;0&nbsp;(<span class="constructor">Bytes</span>.length&nbsp;o);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span>&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;<span class="keyword">rec</span>&nbsp;logout&nbsp;=&nbsp;<span class="keyword">function</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;logout&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;<span class="keyword">rec</span>&nbsp;idle&nbsp;uidn&nbsp;=&nbsp;<span class="keyword">function</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;(<span class="keywordsign">`</span><span class="constructor">Exists</span>&nbsp;_)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;idle_done&nbsp;uidn&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;(<span class="keywordsign">`</span><span class="constructor">Idle_done</span>))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;idle&nbsp;uidn&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span>)&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;idle_done&nbsp;uidn&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">and</span>&nbsp;idle_done&nbsp;uidn&nbsp;=&nbsp;<span class="keyword">function</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;idle_done&nbsp;uidn&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;search&nbsp;uidn&nbsp;<span class="constructor">Uint32</span>.zero<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;(<span class="keywordsign">`</span><span class="constructor">Cmd</span>&nbsp;(<span class="constructor">Imap</span>.search&nbsp;~uid:<span class="keyword">true</span>&nbsp;(<span class="keywordsign">`</span><span class="constructor">Uid</span>&nbsp;[uidn,&nbsp;<span class="constructor">Uint32</span>.max_int]))))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">and</span>&nbsp;search&nbsp;uidn&nbsp;n&nbsp;=&nbsp;<span class="keyword">function</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;(<span class="keywordsign">`</span><span class="constructor">Search</span>&nbsp;(n&nbsp;::&nbsp;_,&nbsp;_))&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;search&nbsp;uidn&nbsp;n&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;search&nbsp;uidn&nbsp;n&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;n&nbsp;=&nbsp;0&nbsp;means&nbsp;that&nbsp;we&nbsp;couldn't&nbsp;find&nbsp;the&nbsp;message&nbsp;after&nbsp;all.&nbsp;*)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;n&nbsp;=&nbsp;<span class="constructor">Uint32</span>.zero&nbsp;<span class="keyword">then</span>&nbsp;idle&nbsp;uidn&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Idle</span>)&nbsp;<span class="keyword">else</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;cmd&nbsp;=&nbsp;<span class="constructor">Imap</span>.fetch&nbsp;~uid:<span class="keyword">true</span>&nbsp;~changed:<span class="constructor">Uint64</span>.one&nbsp;[n,&nbsp;n]&nbsp;[<span class="keywordsign">`</span><span class="constructor">Envelope</span>]&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetch&nbsp;uidn&nbsp;n&nbsp;<span class="constructor">None</span>&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;(<span class="keywordsign">`</span><span class="constructor">Cmd</span>&nbsp;cmd))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">and</span>&nbsp;fetch&nbsp;uidn&nbsp;n&nbsp;name&nbsp;=&nbsp;<span class="keyword">function</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;(<span class="keywordsign">`</span><span class="constructor">Fetch</span>&nbsp;(_,&nbsp;att))&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;name&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">List</span>.fold_left<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keyword">fun</span>&nbsp;name&nbsp;att&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keyword">match</span>&nbsp;att&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Envelope</span>&nbsp;e&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">begin</span>&nbsp;<span class="keyword">match</span>&nbsp;e.<span class="constructor">Imap</span>.env_from&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;ad&nbsp;::&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Some</span>&nbsp;(<span class="constructor">Printf</span>.sprintf&nbsp;<span class="string">"\"%s\"&nbsp;&lt;%s@%s&gt;"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ad.<span class="constructor">Imap</span>.ad_name&nbsp;ad.<span class="constructor">Imap</span>.ad_mailbox&nbsp;ad.<span class="constructor">Imap</span>.ad_host)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">end</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;name)&nbsp;name&nbsp;att<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetch&nbsp;uidn&nbsp;n&nbsp;name&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;fetch&nbsp;uidn&nbsp;n&nbsp;name&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;name&nbsp;=&nbsp;<span class="keyword">match</span>&nbsp;name&nbsp;<span class="keyword">with</span>&nbsp;<span class="constructor">None</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="string">"&lt;unnamed&gt;"</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Some</span>&nbsp;name&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;name&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Format</span>.printf&nbsp;<span class="string">"New&nbsp;mail&nbsp;from&nbsp;%s,&nbsp;better&nbsp;go&nbsp;and&nbsp;check&nbsp;it&nbsp;out!\n%!"</span>&nbsp;name;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logout&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;(<span class="keywordsign">`</span><span class="constructor">Cmd</span>&nbsp;<span class="constructor">Imap</span>.logout))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;<span class="keyword">rec</span>&nbsp;select&nbsp;uidn&nbsp;=&nbsp;<span class="keyword">function</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;(<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;(<span class="keywordsign">`</span><span class="constructor">Uid_next</span>&nbsp;uidn,&nbsp;_))&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;select&nbsp;uidn&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;select&nbsp;uidn&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;idle&nbsp;uidn&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Idle</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;<span class="keyword">rec</span>&nbsp;login&nbsp;=&nbsp;<span class="keyword">function</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;login&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;<span class="keywordsign">`</span><span class="constructor">Await</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;select&nbsp;<span class="constructor">Uint32</span>.zero&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;(<span class="keywordsign">`</span><span class="constructor">Cmd</span>&nbsp;(<span class="constructor">Imap</span>.select&nbsp;mbox)))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;login&nbsp;(run&nbsp;sock&nbsp;i&nbsp;o&nbsp;c&nbsp;(<span class="keywordsign">`</span><span class="constructor">Cmd</span>&nbsp;(<span class="constructor">Imap</span>.login&nbsp;user&nbsp;pass)))<br>
+&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Untagged</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keyword">assert</span>&nbsp;<span class="keyword">false</span><br>
+</code></pre><br>
+</body></html>
